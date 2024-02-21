@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   Box,
   Flex,
@@ -16,7 +15,7 @@ const Navbar = (props: {
   fixed: boolean;
   onOpen: (...args: any[]) => any;
 }) => {
-  const [_, setScrolled] = useState(false);
+  const [, setScrolled] = useState(false);
 
   useEffect(() => {
     window.addEventListener("scroll", changeNavbar);
@@ -29,19 +28,19 @@ const Navbar = (props: {
   const { secondary, brandText } = props;
 
   // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
-  let mainText = useColorModeValue("navy.700", "white");
-  let navbarPosition = "fixed" as const;
-  let navbarFilter = "none";
-  let navbarBackdrop = "blur(20px)";
-  let navbarShadow = "none";
-  let navbarBg = useColorModeValue(
+  const mainText = useColorModeValue("navy.700", "white");
+  const navbarPosition = "fixed" as const;
+  const navbarFilter = "none";
+  const navbarBackdrop = "blur(20px)";
+  const navbarShadow = "none";
+  const navbarBg = useColorModeValue(
     "rgba(244, 247, 254, 0.2)",
     "rgba(11,20,55,0.5)"
   );
-  let navbarBorder = "transparent";
-  let secondaryMargin = "0px";
-  let paddingX = "15px";
-  let gap = "0px";
+  const navbarBorder = "transparent";
+  const secondaryMargin = "0px";
+  const paddingX = "15px";
+  const gap = "0px";
   const changeNavbar = () => {
     if (window.scrollY > 1) {
       setScrolled(true);
@@ -95,10 +94,7 @@ const Navbar = (props: {
     >
       <Flex
         w="100%"
-        flexDirection={{
-          sm: "column",
-          md: "row",
-        }}
+        flexDirection="row"
         alignItems={{ xl: "center" }}
         mb={gap}
       >
@@ -124,7 +120,7 @@ const Navbar = (props: {
             {brandText}
           </Link>
         </Box>
-        <Box ms="auto" w={{ sm: "100%", md: "unset" }}>
+        <Box ms="auto">
           <NavbarLinks
             onOpen={props.onOpen}
             secondary={props.secondary}
