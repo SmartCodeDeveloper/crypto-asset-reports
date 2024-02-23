@@ -2,6 +2,7 @@ import { Icon } from '@chakra-ui/react';
 import { FaHome, FaQuestionCircle } from 'react-icons/fa';
 
 import Dashboard from "@/views/dashboard";
+import CoinDetails from './views/coinDetails';
 
 const routes = [
 	{
@@ -17,6 +18,13 @@ const routes = [
 		path: '/faq',
 		icon: <Icon as={FaQuestionCircle} width='24px' height='24px' color='inherit' />,
 		component: Dashboard
+	},
+	{
+		name: 'CoinDetails',
+		layout: '/',
+		path: '/details',
+		icon: <Icon as={FaQuestionCircle} width='24px' height='24px' color='inherit' />,
+		component: CoinDetails
 	},
 ];
 
