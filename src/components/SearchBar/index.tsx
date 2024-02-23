@@ -16,7 +16,7 @@ export function SearchBar(props: {
   borderRadius?: string | number;
   [x: string]: any;
 }) {
-  const { variant, background, children, placeholder, borderRadius, ...rest } =
+  const { variant, background, children, placeholder, borderRadius, value, change, ...rest } =
     props;
   const searchIconColor = useColorModeValue("gray.700", "white");
   const inputBg = useColorModeValue("secondaryGray.300", "navy.900");
@@ -51,6 +51,9 @@ export function SearchBar(props: {
         _placeholder={{ color: "gray.400", fontSize: "14px" }}
         borderRadius={borderRadius ? borderRadius : "30px"}
         placeholder={placeholder ? placeholder : "Search..."}
+        value={value}
+        onKeyDown={change}
+        onChange={change} 
       />
     </InputGroup>
   );
