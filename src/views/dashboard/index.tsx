@@ -5,6 +5,11 @@ import { CryptoAsset } from "@/types/response/ResponseCoin";
 import CoinTable from "@/components/CoinTable";
 import { SearchBar } from "@/components/SearchBar";
 import Card from "@/components/Card/Card";
+import SkeletonTable from "@/components/Skeleton/SkeletonTable";
+import { useCallback, useMemo, useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { createFilterToken, useSortedTokensByQuery } from '@/utils/filtering';
+import { isAddress } from "@/utils";
 
 export default function UserReports() {
   const searchbarBg = useColorModeValue("white", "navy.800");
@@ -16,6 +21,26 @@ export default function UserReports() {
   const { data: coinsData, loading: loadingCoins } = useRequest(() =>
     CoinsApi.getCoins()
   );
+
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const debouncedQuery = useDebounce(searchQuery, 500)
+
+
+  const filteredTokens: CryptoAsset[] = useMemo(() => {
+    const filterToken = createFilterToken(debouncedQuery)
+    return coinsData ? coinsData.data?.filter(filterToken) : []
+  }, [coinsData, debouncedQuery])
+
+  const filteredQueryTokens = useSortedTokensByQuery(filteredTokens, debouncedQuery)
+
+  const filteredSortedTokens: CryptoAsset[] = useMemo(() => filteredQueryTokens, [filteredQueryTokens])
+
+
+  const handleInput = useCallback((event: any) => {
+    const input = event.target.value
+    const checksummedInput = isAddress(input)
+    setSearchQuery(checksummedInput || input)
+  }, [])
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
@@ -34,21 +59,23 @@ export default function UserReports() {
           mb={{ base: "10px", md: "unset" }}
           me="10px"
           borderRadius="30px"
+          value={searchQuery}
+          change={handleInput} 
         />
       </Flex>
-      {loadingCoins && <div>Loading....</div>}
-      {!loadingCoins && coinsData && (
-        <Card
-          flexDirection="column"
-          w="100%"
-          px="0px"
-          overflowX={{ sm: "scroll", lg: "hidden" }}
-        >
+      <Card
+        flexDirection="column"
+        w="100%"
+        px="0px"
+        overflowX={{ sm: "scroll", lg: "hidden" }}
+      >
+        {loadingCoins && <SkeletonTable cols={6}/>}
+        {!loadingCoins && coinsData && (
           <CoinTable
-            tableData={coinsData.data.map(
+            tableData={filteredSortedTokens.map(
               (coin: CryptoAsset, index: number) => ({
                 num: index,
-                coin: coin.name,
+                coin: {name: coin.name, symbol: coin.symbol, icon: coin.image},
                 price: coin.current_price,
                 price_change_percentage_24h: coin.price_change_percentage_24h,
                 total_volume: coin.total_volume,
@@ -56,8 +83,8 @@ export default function UserReports() {
               })
             )}
           />
-        </Card>
-      )}
+        )}
+      </Card>
     </Box>
   );
 }

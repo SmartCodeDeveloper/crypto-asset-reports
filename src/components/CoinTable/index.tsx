@@ -10,6 +10,7 @@ import {
   Th,
   Thead,
   Tr,
+  Image,
   Divider,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -22,6 +23,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { formatColor, formatPercentage, formatPrice, formattedPriceWithoutDecimals } from "@/utils";
 
 export type FieldType = {
   num: number;
@@ -55,7 +57,7 @@ export default function CoinTable(props: { tableData: any }) {
       cell: (info: any) => (
         <Flex align="center">
           <Text color={textColor} fontSize="sm" fontWeight="700">
-            {info.getValue()}
+            {info.getValue() + 1}
           </Text>
         </Flex>
       ),
@@ -72,14 +74,34 @@ export default function CoinTable(props: { tableData: any }) {
           Coin
         </Text>
       ),
-      cell: (info) => (
-        <Flex align="center">
-          <Icon w="24px" h="24px" me="5px" color="gray.400" />
-          <Text color={textColor} fontSize="sm" fontWeight="700">
-            {info.getValue()}
-          </Text>
-        </Flex>
-      ),
+      cell: (info) => {
+        const coinInfo: any = info.getValue();
+        return (
+          <Flex align="center">
+            {coinInfo.icon ? (
+              <Image
+                borderRadius="full"
+                boxSize="24px"
+                src={coinInfo.icon}
+                alt={coinInfo.symbol}
+              />
+            ) : (
+              <Icon w="24px" h="24px" me="5px" color="gray.400" />
+            )}
+            <Text color={textColor} fontSize="sm" fontWeight="700" mx={2}>
+              {coinInfo.name}
+            </Text>
+            <Text
+              color={borderColor}
+              textTransform={"uppercase"}
+              fontSize="sm"
+              fontWeight="700"
+            >
+              {coinInfo.symbol}
+            </Text>
+          </Flex>
+        );
+      },
     }),
     columnHelper.accessor("price", {
       id: "price",
@@ -95,7 +117,7 @@ export default function CoinTable(props: { tableData: any }) {
       ),
       cell: (info) => (
         <Text color={textColor} fontSize="sm" fontWeight="700">
-          {info.getValue()}
+          {formatPrice(info.getValue())}
         </Text>
       ),
     }),
@@ -112,8 +134,8 @@ export default function CoinTable(props: { tableData: any }) {
         </Text>
       ),
       cell: (info) => (
-        <Text color={textColor} fontSize="sm" fontWeight="700">
-          {info.getValue()}
+        <Text color={formatColor(info.getValue())} fontSize="sm" fontWeight="700">
+          {formatPercentage(info.getValue())}
         </Text>
       ),
     }),
@@ -131,7 +153,7 @@ export default function CoinTable(props: { tableData: any }) {
       ),
       cell: (info) => (
         <Text color={textColor} fontSize="sm" fontWeight="700">
-          {info.getValue()}
+          {formattedPriceWithoutDecimals(info.getValue())}
         </Text>
       ),
     }),
@@ -149,7 +171,7 @@ export default function CoinTable(props: { tableData: any }) {
       ),
       cell: (info) => (
         <Text color={textColor} fontSize="sm" fontWeight="700">
-          {info.getValue()}
+          {formattedPriceWithoutDecimals(info.getValue())}
         </Text>
       ),
     }),
@@ -228,22 +250,42 @@ export default function CoinTable(props: { tableData: any }) {
             })}
         </Tbody>
       </Table>
-      
-      <Divider orientation='horizontal' />
-      <Flex justifyContent={'space-between'} px={5} pt={5}>
-        <Flex w={'full'}>
+
+      <Divider orientation="horizontal" />
+      <Flex justifyContent={"space-between"} px={5} pt={5}>
+        <Flex w={"full"}>
           <Text>
-            Page {table.getState().pagination.pageIndex + 1} of{' '} {table.getPageCount()}
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
           </Text>
         </Flex>
         <Flex gap={2}>
-          <Button variant='outline' borderRadius={12} padding={2} fontSize={'14px'} onClick={() => table.previousPage()} isDisabled={!table.getCanPreviousPage()}>
+          <Button
+            variant="outline"
+            borderRadius={12}
+            padding={2}
+            fontSize={"14px"}
+            onClick={() => table.previousPage()}
+            isDisabled={!table.getCanPreviousPage()}
+          >
             <FaChevronLeft />
           </Button>
-          <Button variant='outline' borderRadius={12} padding={2} fontSize={'14px'} >
-            {table.getState().pagination.pageIndex + 1} 
+          <Button
+            variant="outline"
+            borderRadius={12}
+            padding={2}
+            fontSize={"14px"}
+          >
+            {table.getState().pagination.pageIndex + 1}
           </Button>
-          <Button variant='outline' borderRadius={12} padding={2} fontSize={'14px'}  onClick={() => table.nextPage()} isDisabled={!table.getCanNextPage()}>
+          <Button
+            variant="outline"
+            borderRadius={12}
+            padding={2}
+            fontSize={"14px"}
+            onClick={() => table.nextPage()}
+            isDisabled={!table.getCanNextPage()}
+          >
             <FaChevronRight />
           </Button>
         </Flex>
