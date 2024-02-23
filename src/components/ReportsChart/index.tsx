@@ -13,10 +13,10 @@ import { MdBarChart, MdOutlineCalendarToday } from "react-icons/md";
 import { RiArrowUpSFill } from "react-icons/ri";
 
 export const lineChartData = [
-  // {
-  //   name: "Revenue",
-  //   data: [50, 64, 48, 66, 49, 100],
-  // },
+  {
+    name: "Revenue",
+    data: [50, 64, 48, 66, 49, 100],
+  },
   {
     name: "Profit",
     data: [100, 40, 24, 46, 20, 46],
