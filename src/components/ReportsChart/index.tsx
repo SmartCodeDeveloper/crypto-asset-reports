@@ -7,100 +7,102 @@ import {
   Card,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useRequest } from "ahooks";
 import LineChart from "./LinChart";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { MdBarChart, MdOutlineCalendarToday } from "react-icons/md";
 import { RiArrowUpSFill } from "react-icons/ri";
+import { CoinsApi } from "@/api";
 
-export const lineChartData = [
-  {
-    name: "Revenue",
-    data: [50, 64, 48, 66, 49, 100],
-  },
-  {
-    name: "Profit",
-    data: [100, 40, 24, 46, 20, 46],
-  },
-];
 
-export const lineChartOptions: any = {
-  chart: {
-    toolbar: {
-      show: false,
-    },
-    dropShadow: {
-      enabled: true,
-      top: 13,
-      left: 0,
-      blur: 10,
-      opacity: 0.1,
-      color: "#4318FF",
-    },
-  },
-  colors: ["#4318FF", "#39B8FF"],
-  markers: {
-    size: 0,
-    colors: "white",
-    strokeColors: "#7551FF",
-    strokeWidth: 3,
-    strokeOpacity: 0.9,
-    strokeDashArray: 0,
-    fillOpacity: 1,
-    discrete: [],
-    shape: "circle",
-    radius: 2,
-    offsetX: 0,
-    offsetY: 0,
-    showNullDataPoints: true,
-  },
-  tooltip: {
-    theme: "dark",
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  stroke: {
-    curve: "smooth",
-    type: "line",
-  },
-  xaxis: {
-    type: "numeric",
-    categories: ["SEP", "OCT", "NOV", "DEC", "JAN", "FEB"],
-    labels: {
-      style: {
-        colors: "#A3AED0",
-        fontSize: "12px",
-        fontWeight: "500",
+export default function ReportsChart(props: { coinId: string, from: number, to: number }) {
+
+  const { coinId, from, to } = props;
+  const { data: coinMarketChartData, loading: loadingCoinMarketChartData } = useRequest(() => CoinsApi.getCoinMarketChartData(coinId, from.toString(), to.toString()));
+
+  const averagePrice = coinMarketChartData && coinMarketChartData.data.prices.reduce((total, price) => total + price[1], 0) / coinMarketChartData?.data.prices.length;
+
+  const lineChartData = [
+    {
+      name: "Price",
+      data: averagePrice && coinMarketChartData && coinMarketChartData.data.prices.map((price) => price[1] - averagePrice),
+    }
+  ];
+  
+  const lineChartOptions: any = {
+    chart: {
+      toolbar: {
+        show: false,
+      },
+      dropShadow: {
+        enabled: true,
+        top: 13,
+        left: 0,
+        blur: 10,
+        opacity: 0.1,
+        color: "#4318FF",
       },
     },
-    axisBorder: {
+    colors: ["#4318FF", "#39B8FF"],
+    markers: {
+      size: 0,
+      colors: "white",
+      strokeColors: "#7551FF",
+      strokeWidth: 3,
+      strokeOpacity: 0.9,
+      strokeDashArray: 0,
+      fillOpacity: 1,
+      discrete: [],
+      shape: "circle",
+      radius: 2,
+      offsetX: 0,
+      offsetY: 0,
+      showNullDataPoints: true,
+    },
+    tooltip: {
+      theme: "dark",
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+      type: "line",
+    },
+    xaxis: {
+      type: "numeric",
+      categories: [1, 2, 3, 4, 5],
+      labels: {
+        style: {
+          colors: "#A3AED0",
+          fontSize: "12px",
+          fontWeight: "500",
+        },
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
       show: false,
     },
-    axisTicks: {
+    legend: {
       show: false,
     },
-  },
-  yaxis: {
-    show: false,
-  },
-  legend: {
-    show: false,
-  },
-  grid: {
-    show: false,
-    column: {
-      color: ["#7551FF", "#39B8FF"],
-      opacity: 0.5,
+    grid: {
+      show: false,
+      column: {
+        color: ["#7551FF", "#39B8FF"],
+        opacity: 0.5,
+      },
     },
-  },
-  color: ["#7551FF", "#39B8FF"],
-};
+    color: ["#7551FF", "#39B8FF"],
+  };
 
-export default function ReportsChart(props: { [x: string]: any }) {
-  const { ...rest } = props;
   const textColor = useColorModeValue("secondaryGray.900", "white");
-  const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
-  const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   const iconColor = useColorModeValue("brand.500", "white");
   const bgButton = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   const bgHover = useColorModeValue(
@@ -125,20 +127,6 @@ export default function ReportsChart(props: { [x: string]: any }) {
       >
         <Flex align="center" justify="space-between" w="100%" pe="20px" pt="5px">
           <Button
-            bg={boxBg}
-            fontSize="sm"
-            fontWeight="500"
-            color={textColorSecondary}
-            borderRadius="7px"
-          >
-            <Icon
-              as={MdOutlineCalendarToday}
-              color={textColorSecondary}
-              me="4px"
-            />
-            This month
-          </Button>
-          <Button
             ms="auto"
             alignItems="center"
             justifyContent="center"
@@ -150,7 +138,6 @@ export default function ReportsChart(props: { [x: string]: any }) {
             h="37px"
             lineHeight="100%"
             borderRadius="10px"
-            {...rest}
           >
             <Icon as={MdBarChart} color={iconColor} w="24px" h="24px" />
           </Button>
@@ -192,7 +179,7 @@ export default function ReportsChart(props: { [x: string]: any }) {
             </Flex>
           </Flex>
           <Box minH="260px" minW="75%" mt="auto">
-            <LineChart chartData={lineChartData} chartOptions={lineChartOptions} />
+            {coinMarketChartData && <LineChart chartData={lineChartData} chartOptions={lineChartOptions} />}
           </Box>
         </Flex>
       </Flex>
