@@ -14,6 +14,7 @@ import {
   Divider,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import {
   createColumnHelper,
   flexRender,
@@ -23,7 +24,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { formatColor, formatPercentage, formatPrice, formattedPriceWithoutDecimals } from "@/utils";
+import {
+  formatColor,
+  formatPercentage,
+  formatPrice,
+  formattedPriceWithoutDecimals,
+} from "@/utils";
 
 export type FieldType = {
   num: number;
@@ -134,7 +140,11 @@ export default function CoinTable(props: { tableData: any }) {
         </Text>
       ),
       cell: (info) => (
-        <Text color={formatColor(info.getValue())} fontSize="sm" fontWeight="700">
+        <Text
+          color={formatColor(info.getValue())}
+          fontSize="sm"
+          fontWeight="700"
+        >
           {formatPercentage(info.getValue())}
         </Text>
       ),
@@ -227,10 +237,10 @@ export default function CoinTable(props: { tableData: any }) {
           {table
             .getRowModel()
             .rows.slice(0, 11)
-            .map((row) => {
+            .map((row: any) => {
               return (
                 <Tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
+                  {row.getVisibleCells().map((cell: any) => {
                     return (
                       <Td
                         key={cell.id}
@@ -238,10 +248,12 @@ export default function CoinTable(props: { tableData: any }) {
                         minW={{ sm: "150px", md: "200px", lg: "auto" }}
                         borderColor="transparent"
                       >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        <Link to={`/currencies/${row.original.coin.id}`}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </Link>
                       </Td>
                     );
                   })}

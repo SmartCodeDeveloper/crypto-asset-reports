@@ -92,6 +92,9 @@ export const globalStyles = {
 			},
 			html: {
 				fontFamily: 'Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif'
+			},
+			a: {
+				color: mode('blue.500', 'cyan.300')(props),
 			}
 		})
 	}

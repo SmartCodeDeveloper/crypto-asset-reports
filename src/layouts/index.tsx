@@ -1,12 +1,12 @@
-
 import { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import { Portal, Box, useDisclosure } from "@chakra-ui/react";
 import { SidebarContext } from "@/contexts/SidebarContext";
 import Sidebar from "@/components/Sidebar";
-import Navbar from '@/components/Navbar';
+import Navbar from "@/components/Navbar";
 import routes from "@/routes";
+import Footer from "./Footer";
 
 const Layout = (props: { [x: string]: any }) => {
   const { ...rest } = props;
@@ -16,11 +16,10 @@ const Layout = (props: { [x: string]: any }) => {
   const { onOpen } = useDisclosure();
 
   const getActiveRoute = (routes: RoutesType[]): string => {
-    const activeRoute = "Default Brand Text";
+    const activeRoute = "";
     for (let i = 0; i < routes.length; i++) {
-      if (
-        window.location.href.indexOf(routes[i].path) !== -1
-      ) {
+      console.log(routes[i].path);
+      if (window.location.href.indexOf(routes[i].path) !== -1) {
         return routes[i].name;
       }
     }
@@ -30,9 +29,7 @@ const Layout = (props: { [x: string]: any }) => {
   const getActiveNavbar = (routes: RoutesType[]) => {
     const activeNavbar = false;
     for (let i = 0; i < routes.length; i++) {
-      if (
-        window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
-      ) {
+      if (window.location.href.indexOf(routes[i].path) !== -1) {
         return routes[i].secondary;
       }
     }
@@ -42,9 +39,7 @@ const Layout = (props: { [x: string]: any }) => {
   const getActiveNavbarText = (routes: RoutesType[]): string | boolean => {
     const activeNavbar = false;
     for (let i = 0; i < routes.length; i++) {
-      if (
-        window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
-      ) {
+      if (window.location.href.indexOf(routes[i].path) !== -1) {
         return routes[i].name;
       }
     }
@@ -79,31 +74,35 @@ const Layout = (props: { [x: string]: any }) => {
         transitionProperty="top, bottom, width"
         transitionTimingFunction="linear, linear, ease"
       >
-        <Portal>
-          <Box>
-            <Navbar
-              onOpen={onOpen}
-              logoText={""}
-              brandText={getActiveRoute(routes)}
-              secondary={getActiveNavbar(routes)}
-              message={getActiveNavbarText(routes)}
-              fixed={fixed}
-              {...rest}
-            />
-          </Box>
-        </Portal>
+        {getActiveRoute(routes) && (
+          <Portal>
+            <Box>
+              <Navbar
+                onOpen={onOpen}
+                logoText={""}
+                brandText={getActiveRoute(routes)}
+                secondary={getActiveNavbar(routes)}
+                message={getActiveNavbarText(routes)}
+                fixed={fixed}
+                {...rest}
+              />
+            </Box>
+          </Portal>
+        )}
 
         <Box
           mx="auto"
           p={{ base: "20px", md: "30px" }}
           pe="20px"
-          minH="100vh"
           pt="50px"
         >
           <Switch>
             {getRoutes(routes)}
-            <Redirect from='/' to='/crypto-assets' />
+            <Redirect from="/" to="/crypto-assets" />
           </Switch>
+        </Box>
+        <Box>
+          <Footer />
         </Box>
       </Box>
     </SidebarContext.Provider>

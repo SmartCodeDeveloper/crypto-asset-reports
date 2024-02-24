@@ -47,7 +47,6 @@ export const formatColor = (value: any) => {
   } else if (n < 0) {
     return useColorModeValue("red.500", "red.500");
   }
-
 };
 
 export const formatPrice = (price: any) => {
@@ -66,8 +65,26 @@ export const formattedPriceWithoutDecimals = (price: any) => {
   return formattedPrice.replace(/\.00/g, "");
 };
 
+export const formattedAmountWithSymbol = (amount: any, symbol: string) => {
+  if (!amount) return "-";
+  const formattedAmount = amount?.toLocaleString("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 8,
+  });
+
+  return `${formattedAmount} ${symbol.toUpperCase()}`;
+};
+
 export const formatPercentage = (num: any) => {
   return (num / 100).toLocaleString("en-US", {
+    style: "percent",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
+
+export const formatPercentageOrigin = (num: any) => {
+  return num.toLocaleString("en-US", {
     style: "percent",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

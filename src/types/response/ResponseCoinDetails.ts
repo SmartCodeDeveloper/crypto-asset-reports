@@ -7,7 +7,12 @@ export type AssetDetails = {
   },
   links: {
     homepage: Array<string>,
-    blockchain_site: Array<string>
+    blockchain_site: Array<string>,
+    whitepaper: string,
+    repos_url: {
+      github: Array<string>,
+    },
+    subreddit_url: string
   },
   image: {
     thumb: string,
@@ -25,6 +30,7 @@ export type AssetDetails = {
       usd: number
     },
     market_cap_rank: number,
+    max_supply: number,
     total_volume: {
       usd: number
     },

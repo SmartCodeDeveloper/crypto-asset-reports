@@ -51,7 +51,7 @@ const Sidebar = (props: { routes: RoutesType[]; [x: string]: any }) => {
           renderThumbVertical={renderThumb}
           renderView={renderView}
         >
-          <Content routes={routes} />
+          <Content routes={routes.filter((route: RoutesType) => route.visible)} />
         </Scrollbars>
       </Box>
     </Box>
@@ -101,7 +101,7 @@ export const SidebarResponsive = (props: { routes: RoutesType[] }) => {
               renderThumbVertical={renderThumb}
               renderView={renderView}
             >
-              <Content routes={routes} />
+              <Content routes={routes.filter((route: RoutesType) => route.visible)} />
             </Scrollbars>
           </DrawerBody>
         </DrawerContent>
