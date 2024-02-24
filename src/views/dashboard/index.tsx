@@ -75,7 +75,7 @@ export default function UserReports() {
             tableData={filteredSortedTokens.map(
               (coin: CryptoAsset, index: number) => ({
                 num: index,
-                coin: {name: coin.name, symbol: coin.symbol, icon: coin.image},
+                coin: {id: coin.id, name: coin.name, symbol: coin.symbol, icon: coin.image},
                 price: coin.current_price,
                 price_change_percentage_24h: coin.price_change_percentage_24h,
                 total_volume: coin.total_volume,
