@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Flex,
   Box,
   Button,
   ButtonGroup,
@@ -33,22 +34,22 @@ export default function ReportsChart(props: {id: string}) {
       let from;
       switch (duration) {
         case DurationType.Day:
-          from = to - 24 * 60 * 60; // 1 day
+          from = to - 24 * 60 * 60;
           break;
         case DurationType.Week:
-          from = to - 7 * 24 * 60 * 60; // 1 week
+          from = to - 7 * 24 * 60 * 60;
           break;
         case DurationType.Month:
-          from = to - 30 * 24 * 60 * 60; // 1 month (approximated to 30 days)
+          from = to - 30 * 24 * 60 * 60;
           break;
         case DurationType.Quarter:
-          from = to - 3 * 30 * 24 * 60 * 60; // 3 months (approximated to 90 days)
+          from = to - 3 * 30 * 24 * 60 * 60;
           break;
         case DurationType.Year:
-          from = to - 365 * 24 * 60 * 60; // 1 year (approximated to 365 days)
+          from = to - 365 * 24 * 60 * 60;
           break;
         default:
-          from = to - 24 * 60 * 60; // Default to 1 day
+          from = to - 24 * 60 * 60;
       }
       return CoinsApi.getCoinMarketChartData(
         id,
@@ -202,22 +203,20 @@ export default function ReportsChart(props: {id: string}) {
 
   return (
     <Box minH="260px" minW="75%" mb={0}>
+      <Flex w="100%" justifyContent="end" mb="24px">
+        <ButtonGroup gap="1">
+          <Button w="40px" h="40px" borderRadius="8px" onClick={() => setDuration(DurationType.Day)}>24h</Button>
+          <Button w="40px" h="40px" borderRadius="8px" onClick={() => setDuration(DurationType.Week)}>7d</Button>
+          <Button w="40px" h="40px" borderRadius="8px" onClick={() => setDuration(DurationType.Month)}>1m</Button>
+          <Button w="40px" h="40px" borderRadius="8px" onClick={() => setDuration(DurationType.Quarter)}>3m</Button>
+          <Button w="40px" h="40px" borderRadius="8px" onClick={() => setDuration(DurationType.Year)}>1y</Button>
+        </ButtonGroup>
+      </Flex>
       {!loadingCoinMarketChartData && coinMarketChartData ? (
-        <Box>
-          <ButtonGroup gap="4">
-            <Button onClick={() => setDuration(DurationType.Day)}>24h</Button>
-            <Button onClick={() => setDuration(DurationType.Week)}>7d</Button>
-            <Button onClick={() => setDuration(DurationType.Month)}>1m</Button>
-            <Button onClick={() => setDuration(DurationType.Quarter)}>
-              3m
-            </Button>
-            <Button onClick={() => setDuration(DurationType.Year)}>1y</Button>
-          </ButtonGroup>
-          <LineChart
-            chartData={lineChartData}
-            chartOptions={lineChartOptions}
-          />
-        </Box>
+        <LineChart
+          chartData={lineChartData}
+          chartOptions={lineChartOptions}
+        />
       ) : (
         <Skeleton h={"300px"} />
       )}

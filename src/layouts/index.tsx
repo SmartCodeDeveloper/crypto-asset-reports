@@ -65,15 +65,10 @@ const Layout = (props: { [x: string]: any }) => {
         height="100%"
         overflow="auto"
         position="relative"
-        maxHeight="100%"
         w={{ base: "100%", xl: "calc( 100% - 290px )" }}
-        maxWidth={{ base: "100%", xl: "calc( 100% - 290px )" }}
-        transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
-        transitionDuration=".2s, .2s, .35s"
-        transitionProperty="top, bottom, width"
-        transitionTimingFunction="linear, linear, ease"
+        maxW={{ base: "100%", xl: "calc( 100% - 290px )" }}
       >
-        {/* {getActiveRoute(routes) && ( */}
+        {getActiveRoute(routes) && (
           <Portal>
             <Box>
               <Navbar
@@ -87,20 +82,19 @@ const Layout = (props: { [x: string]: any }) => {
               />
             </Box>
           </Portal>
-        {/* )} */}
-
-        <Box
-          mx="auto"
-          p={{ base: "20px", md: "30px" }}
-          pe="20px"
-          pt="50px"
-        >
+        )}
+        <Box mx="auto" p={{ base: "20px", md: "30px" }} pe="20px" pt="50px">
           <Switch>
             {getRoutes(routes)}
             <Redirect from="/" to="/crypto-assets" />
           </Switch>
         </Box>
-        <Box>
+        <Box
+          w={{ base: "100vh", xl: "calc( 100% - 290px )" }}
+          maxWidth={{ base: "100vh", xl: "calc( 100% - 290px )" }}
+          position="absolute"
+          bottom="0px"
+        >
           <Footer />
         </Box>
       </Box>
