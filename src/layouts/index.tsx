@@ -67,6 +67,8 @@ const Layout = (props: { [x: string]: any }) => {
         position="relative"
         w={{ base: "100%", xl: "calc( 100% - 290px )" }}
         maxW={{ base: "100%", xl: "calc( 100% - 290px )" }}
+        display="flex"
+        flexDirection="column"
       >
         {getActiveRoute(routes) && (
           <Portal>
@@ -83,7 +85,7 @@ const Layout = (props: { [x: string]: any }) => {
             </Box>
           </Portal>
         )}
-        <Box mx="auto" p={{ base: "20px", md: "30px" }} pe="20px" pt="50px">
+        <Box mx="auto" p={{ base: "20px", md: "30px" }} pe="20px" pt="50px" flex={1} width="100%">
           <Switch>
             {getRoutes(routes)}
             <Redirect from="/" to="/crypto-assets" />

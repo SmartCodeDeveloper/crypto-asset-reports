@@ -3,6 +3,7 @@ import { FaHome, FaQuestionCircle } from "react-icons/fa";
 
 import Dashboard from "@/views/dashboard";
 import Detail from "@/views/detail";
+import FAQ from "@/views/faq";
 
 const routes = [
   {
@@ -21,14 +22,14 @@ const routes = [
     component: Detail,
   },
   {
-    name: "Questions",
+    name: "FAQ",
     layout: "/faq",
     path: "/faq",
     visible: true,
     icon: (
       <Icon as={FaQuestionCircle} width="24px" height="24px" color="inherit" />
     ),
-    component: Detail,
+    component: FAQ,
   },
 ];
 
