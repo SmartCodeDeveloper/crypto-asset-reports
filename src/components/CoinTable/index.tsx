@@ -192,7 +192,6 @@ export default function CoinTable(props: { tableData: any }) {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-
     debugTable: true,
   });
 
@@ -248,7 +247,7 @@ export default function CoinTable(props: { tableData: any }) {
                         minW={{ sm: "150px", md: "200px", lg: "auto" }}
                         borderColor="transparent"
                       >
-                        <Link to={`/currencies/${row.original.coin.id}`}>
+                        <Link to={`/assets/${row.original.coin.id}`}>
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()

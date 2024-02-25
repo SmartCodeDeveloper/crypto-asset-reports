@@ -33,7 +33,6 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export default function CoinMarketData(props: { data: AssetDetails }) {
   const { data } = props;
-  console.log("data", data);
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.500");
 
@@ -187,10 +186,10 @@ export default function CoinMarketData(props: { data: AssetDetails }) {
             </MenuButton>
             <MenuList>
               {data.links.blockchain_site &&
-                data.links.blockchain_site.map((site: any) => {
+                data.links.blockchain_site.map((site: any, index: number) => {
                   if (!site) return;
                   return (
-                    <MenuItem as="a" fontSize={"xs"} href={site}>
+                    <MenuItem as="a" fontSize={"xs"} href={site} key={index}>
                       {site}
                     </MenuItem>
                   );

@@ -11,23 +11,10 @@ import SkeletonCoinInfo from "@/components/Skeleton/SkeletonCoinInfo";
 
 const Details = () => {
   const param = useParams<any>();
-  console.log(param.id);
-  const { data: coinDetails, loading: loadingCoinInfo } = useRequest(() =>
+
+  const { data: coinDetails, loading: loadingCoinDetails } = useRequest(() =>
     CoinsApi.getCoinDetails(param.id)
   );
-  const to = Math.floor(Date.now() / 1000); // Current timestamp in seconds
-  const from = to - 24 * 60 * 60; // Timestamp for 24 hours ago
-
-  const { data: coinMarketChartData, loading: loadingCoinMarketChartData } =
-    useRequest(() =>
-      CoinsApi.getCoinMarketChartData(
-        "ethereum",
-        from.toString(),
-        to.toString()
-      )
-    );
-
-  console.log("data=====>", coinMarketChartData);
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
@@ -46,22 +33,17 @@ const Details = () => {
           gap={10}
           divider={<StackDivider />}
         >
-          {!loadingCoinMarketChartData && coinDetails ? (
+          {!loadingCoinDetails && coinDetails ? (
             <CoinMarketData data={coinDetails.data} />
           ) : (
             <SkeletonCoinInfo />
           )}
 
           <Stack w={{ md: "70%", sm: "full" }} spacing={10}>
-            {!loadingCoinMarketChartData && coinMarketChartData ? (
-              <ReportsChart />
-            ) : (
-              <Skeleton h={"300px"} />
-            )}
-
+            <ReportsChart id={param.id} />
             <Stack spacing={8} w={"full"}>
               <Box as={"header"}>
-                {!loadingCoinInfo && coinDetails ? (
+                {!loadingCoinDetails && coinDetails ? (
                   <Heading
                     lineHeight={1.1}
                     fontWeight={600}
@@ -75,7 +57,7 @@ const Details = () => {
               </Box>
 
               <Box id="coin_description">
-                {!loadingCoinInfo && coinDetails ? (
+                {!loadingCoinDetails && coinDetails ? (
                   ReactHtmlParser(coinDetails.data.description.en)
                 ) : (
                   <Skeleton h={"300px"} />
