@@ -89,14 +89,7 @@ const Layout = (props: { [x: string]: any }) => {
             <Redirect from="/" to="/crypto-assets" />
           </Switch>
         </Box>
-        <Box
-          w={{ base: "100vh", xl: "calc( 100% - 290px )" }}
-          maxWidth={{ base: "100vh", xl: "calc( 100% - 290px )" }}
-          position="absolute"
-          bottom="0px"
-        >
           <Footer />
-        </Box>
       </Box>
     </SidebarContext.Provider>
   );
