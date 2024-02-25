@@ -18,8 +18,7 @@ const Layout = (props: { [x: string]: any }) => {
   const getActiveRoute = (routes: RoutesType[]): string => {
     const activeRoute = "";
     for (let i = 0; i < routes.length; i++) {
-      console.log(routes[i].path);
-      if (window.location.href.indexOf(routes[i].path) !== -1) {
+      if (window.location.href.indexOf(routes[i].layout) !== -1) {
         return routes[i].name;
       }
     }
@@ -74,7 +73,7 @@ const Layout = (props: { [x: string]: any }) => {
         transitionProperty="top, bottom, width"
         transitionTimingFunction="linear, linear, ease"
       >
-        {getActiveRoute(routes) && (
+        {/* {getActiveRoute(routes) && ( */}
           <Portal>
             <Box>
               <Navbar
@@ -88,7 +87,7 @@ const Layout = (props: { [x: string]: any }) => {
               />
             </Box>
           </Portal>
-        )}
+        {/* )} */}
 
         <Box
           mx="auto"

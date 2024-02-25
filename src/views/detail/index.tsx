@@ -22,7 +22,7 @@ const Details = () => {
         flexDirection="column"
         w="100%"
         px="0px"
-        mt="-80px"
+        // mt="-80px"
         overflowX={{ sm: "scroll", lg: "hidden" }}
       >
         <Stack

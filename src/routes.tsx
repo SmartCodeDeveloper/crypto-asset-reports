@@ -7,21 +7,22 @@ import Detail from "@/views/detail";
 const routes = [
   {
     name: "Crypto Assets",
-    layout: "/",
+    layout: "/crypto-assets",
     path: "/crypto-assets",
     visible: true,
     icon: <Icon as={FaHome} width="24px" height="24px" color="inherit" />,
     component: Dashboard,
   },
   {
-    name: "Crypto Assets Detail",
+    name: "Asset Details",
+    layout: "/assets",
     path: "/assets/:id",
     visible: false,
     component: Detail,
   },
   {
     name: "Questions",
-    layout: "/",
+    layout: "/faq",
     path: "/faq",
     visible: true,
     icon: (
