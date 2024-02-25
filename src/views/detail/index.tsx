@@ -23,10 +23,10 @@ const Details = () => {
         w="100%"
         px="0px"
         // mt="-80px"
-        overflowX={{ sm: "scroll", lg: "hidden" }}
+        overflowX={{ sm: "hidden", lg: "hidden" }}
       >
         <Stack
-          direction="row"
+          direction={{ base: "column", md: "row" }}
           h="full"
           py={4}
           px={10}

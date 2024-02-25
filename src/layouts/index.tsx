@@ -89,7 +89,7 @@ const Layout = (props: { [x: string]: any }) => {
             <Redirect from="/" to="/crypto-assets" />
           </Switch>
         </Box>
-          <Footer />
+        <Footer />
       </Box>
     </SidebarContext.Provider>
   );
